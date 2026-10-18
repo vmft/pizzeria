@@ -689,6 +689,540 @@
       outline: 3px solid #d4a537;
       outline-offset: 3px;
     }
+  /* ===== CART ===== */
+
+  /* --- Кнопка корзины в хедере --- */
+  .cart-header-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    border: none;
+    border-radius: 999px;
+    background-color: #b03a2e;
+    color: #fdf6e3;
+    cursor: pointer;
+    box-shadow: 0 6px 14px rgba(176, 58, 46, 0.25);
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .cart-header-btn:hover {
+    background-color: #8f2e24;
+    box-shadow: 0 10px 20px rgba(176, 58, 46, 0.3);
+  }
+  .cart-header-btn:active {
+    transform: scale(0.95);
+  }
+  .cart-header-btn svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .cart-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 5px;
+    border: 2px solid #fdf6e3;
+    border-radius: 999px;
+    background-color: #d4a537;
+    color: #2c2c2c;
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cart-badge-hidden {
+    display: none !important;
+  }
+
+  /* --- Оверлеи --- */
+  .cart-overlay,
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 250;
+    background-color: rgba(44, 44, 44, 0.55);
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0s linear 0.25s;
+  }
+  .modal-overlay {
+    z-index: 450;
+    background-color: rgba(44, 44, 44, 0.6);
+  }
+  .cart-overlay.cart-overlay-open,
+  .modal-overlay.modal-overlay-open {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.25s ease, visibility 0s;
+  }
+
+  /* --- Drawer корзины --- */
+  .cart-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(420px, 100vw);
+    z-index: 300;
+    display: flex;
+    flex-direction: column;
+    background-color: #fdf6e3;
+    border-radius: 28px 0 0 28px;
+    box-shadow: -18px 0 40px -14px rgba(44, 44, 44, 0.4);
+    transform: translateX(100%);
+    visibility: hidden;
+    transition: transform 0.3s ease, visibility 0s linear 0.3s;
+  }
+  .cart-drawer.drawer-open {
+    transform: translateX(0);
+    visibility: visible;
+    transition: transform 0.3s ease, visibility 0s;
+  }
+
+  .cart-drawer-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid rgba(62, 86, 65, 0.15);
+  }
+  .cart-drawer-head h2 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: #3e5641;
+  }
+  .drawer-close,
+  .modal-close {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    border: none;
+    border-radius: 999px;
+    background-color: rgba(62, 86, 65, 0.1);
+    color: #2c2c2c;
+    font-size: 1.05rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  .drawer-close:hover,
+  .modal-close:hover {
+    background-color: rgba(176, 58, 46, 0.12);
+    color: #b03a2e;
+  }
+
+  .cart-items {
+    flex: 1;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 1rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .cart-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 0.8rem 0.9rem;
+    box-shadow: 0 5px 16px -8px rgba(44, 44, 44, 0.12);
+  }
+  .cart-item-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .cart-item-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #2c2c2c;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .cart-item-price {
+    margin-top: 2px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #3e5641;
+  }
+  .cart-item-qty {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .cart-qty-btn,
+  .cart-item-remove {
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.05rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  .cart-qty-btn {
+    background-color: rgba(62, 86, 65, 0.1);
+    color: #3e5641;
+  }
+  .cart-qty-btn:hover {
+    background-color: rgba(62, 86, 65, 0.2);
+  }
+  .cart-qty-num {
+    min-width: 20px;
+    text-align: center;
+    font-weight: 700;
+    color: #2c2c2c;
+  }
+  .cart-item-remove {
+    background-color: rgba(176, 58, 46, 0.1);
+    color: #b03a2e;
+    font-size: 0.95rem;
+  }
+  .cart-item-remove:hover {
+    background-color: rgba(176, 58, 46, 0.2);
+  }
+
+  /* --- Пустая корзина --- */
+  .cart-empty {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 2rem 1.5rem;
+    text-align: center;
+  }
+  .cart-empty-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #3e5641;
+  }
+  .cart-empty-text {
+    font-size: 0.95rem;
+    opacity: 0.7;
+  }
+  .cart-menu-btn {
+    margin-top: 0.75rem;
+  }
+
+  /* --- Футер корзины --- */
+  .cart-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    padding: 1.25rem 1.5rem 1.5rem;
+    border-top: 1px solid rgba(62, 86, 65, 0.15);
+  }
+  .cart-total-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+  .cart-total-label {
+    font-weight: 600;
+    color: #3e5641;
+  }
+  .cart-total-sum {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #b03a2e;
+  }
+  .cart-footer-actions {
+    display: flex;
+    gap: 0.75rem;
+  }
+  .cart-clear-btn {
+    flex: 1;
+    min-height: 44px;
+    padding: 0.8rem 1rem;
+    border: 2px solid #b03a2e;
+    border-radius: 999px;
+    background-color: transparent;
+    color: #b03a2e;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  .cart-clear-btn:hover {
+    background-color: rgba(176, 58, 46, 0.08);
+  }
+  .cart-checkout-btn {
+    flex: 2;
+    min-height: 44px;
+    padding: 0.8rem 1rem;
+    border: 2px solid #b03a2e;
+    border-radius: 999px;
+    background-color: #b03a2e;
+    color: #fdf6e3;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    box-shadow: 0 6px 14px rgba(176, 58, 46, 0.2);
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .cart-checkout-btn:hover {
+    background-color: #8f2e24;
+    box-shadow: 0 10px 20px rgba(176, 58, 46, 0.3);
+  }
+
+  /* --- Toast --- */
+  .cart-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 1.25rem;
+    z-index: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    max-width: calc(100vw - 2rem);
+    padding: 0.5rem 0.5rem 0.5rem 1.25rem;
+    border-radius: 999px;
+    background-color: #2c2c2c;
+    color: #fdf6e3;
+    box-shadow: 0 14px 30px -10px rgba(44, 44, 44, 0.5);
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0s;
+  }
+  .cart-toast-hidden {
+    opacity: 0;
+    transform: translateX(-50%) translateY(16px);
+    visibility: hidden;
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0.2s;
+  }
+  .cart-toast-msg {
+    font-size: 0.9rem;
+  }
+  .cart-toast-btn {
+    flex-shrink: 0;
+    min-height: 44px;
+    padding: 0.55rem 1rem;
+    border: 1.5px solid #d4a537;
+    border-radius: 999px;
+    background-color: transparent;
+    color: #d4a537;
+    font-weight: 700;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  .cart-toast-btn:hover {
+    background-color: rgba(212, 165, 55, 0.15);
+  }
+
+  /* --- Модалка чекаута --- */
+  .checkout-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: min(480px, calc(100vw - 2rem));
+    max-height: calc(100vh - 2rem);
+    max-height: calc(100dvh - 2rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    z-index: 500;
+    background-color: #fdf6e3;
+    border-radius: 28px;
+    padding: 1.5rem 1.5rem 1.75rem;
+    box-shadow: 0 28px 56px -16px rgba(44, 44, 44, 0.45);
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0s;
+  }
+  .checkout-modal.modal-hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, -50%) scale(0.96);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0.2s;
+  }
+  .modal-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  .modal-title {
+    margin: 0;
+    font-size: 1.35rem;
+    color: #3e5641;
+  }
+  .modal-field {
+    margin-bottom: 1rem;
+  }
+  .modal-field label {
+    display: block;
+    margin-bottom: 0.35rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #3e5641;
+  }
+  .modal-field input,
+  .modal-field textarea {
+    width: 100%;
+    padding: 0.85rem 1.1rem;
+    border: 1.5px solid #d4a53740;
+    border-radius: 20px;
+    background-color: #fff;
+    color: #2c2c2c;
+    font-family: inherit;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .modal-field input:focus,
+  .modal-field textarea:focus {
+    border-color: #b03a2e;
+    box-shadow: 0 0 0 4px rgba(176, 58, 46, 0.15);
+  }
+  .modal-field input[aria-invalid="true"],
+  .modal-field textarea[aria-invalid="true"] {
+    border-color: #b03a2e;
+    background-color: rgba(176, 58, 46, 0.04);
+  }
+  .modal-error {
+    min-height: 1.1em;
+    margin: 0.3rem 0.2rem 0;
+    font-size: 0.8rem;
+    color: #b03a2e;
+  }
+  .modal-error:empty {
+    display: none;
+  }
+  .modal-submit {
+    width: 100%;
+    min-height: 48px;
+    margin-top: 0.5rem;
+    padding: 0.9rem 1.2rem;
+    border: 2px solid #b03a2e;
+    border-radius: 999px;
+    background-color: #b03a2e;
+    color: #fdf6e3;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: opacity 0.2s ease, background-color 0.2s ease;
+  }
+  .modal-submit:hover:not(:disabled) {
+    background-color: #8f2e24;
+    border-color: #8f2e24;
+  }
+  .modal-submit:disabled {
+    opacity: 0.7;
+    cursor: default;
+  }
+
+  .modal-success {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.4rem;
+    padding: 1rem 0 0.25rem;
+  }
+  .modal-success-icon {
+    font-size: 2.6rem;
+    line-height: 1;
+  }
+  .modal-success-title {
+    margin: 0.4rem 0 0;
+    font-size: 1.3rem;
+    color: #3e5641;
+  }
+  .modal-success-text {
+    font-size: 0.95rem;
+    opacity: 0.8;
+  }
+  .modal-order-num {
+    font-size: 2.6rem;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: 0.08em;
+    color: #b03a2e;
+  }
+  .modal-success-note {
+    font-size: 0.85rem;
+    opacity: 0.7;
+  }
+  .modal-success-btn {
+    max-width: 260px;
+    margin: 0.75rem auto 0;
+  }
+
+  /* [hidden] внутри flex-слоёв */
+  .cart-drawer [hidden],
+  .checkout-modal [hidden] {
+    display: none !important;
+  }
+
+  /* --- Адаптив и reduced motion --- */
+  @media (max-width: 480px) {
+    .cart-drawer {
+      width: 100vw;
+      border-radius: 0;
+    }
+    .cart-header-btn {
+      position: absolute;
+      top: 0.75rem;
+      right: 1.25rem;
+      margin: 0;
+    }
+    .cart-toast {
+      bottom: 0.75rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cart-header-btn,
+    .cart-badge,
+    .cart-overlay,
+    .modal-overlay,
+    .cart-drawer,
+    .checkout-modal,
+    .cart-toast,
+    .drawer-close,
+    .modal-close,
+    .cart-qty-btn,
+    .cart-item-remove,
+    .cart-clear-btn,
+    .cart-checkout-btn,
+    .cart-toast-btn,
+    .modal-submit,
+    .modal-field input,
+    .modal-field textarea,
+    .cart-item,
+    .cart-empty,
+    .cart-footer {
+      transition: none !important;
+      animation: none !important;
+    }
+  }
   </style>
 </head>
 <body>
@@ -705,6 +1239,14 @@
           <li><a href="#contacts">Контакты</a></li>
         </ul>
       </nav>
+
+      <button type="button" class="cart-header-btn" id="cartHeaderBtn" aria-label="Открыть корзину">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M6 8h12l-1.2 12a2 2 0 0 1-2 1.8H9.2a2 2 0 0 1-2-1.8L6 8Z"></path>
+          <path d="M9 10V6a3 3 0 0 1 6 0v4"></path>
+        </svg>
+        <span class="cart-badge cart-badge-hidden" id="cartBadge" aria-hidden="true">0</span>
+      </button>
     </div>
   </header>
 
@@ -777,7 +1319,7 @@
             <p class="pizza-desc">Томатный соус, моцарелла, свежий базилик.</p>
             <div class="pizza-price">650 ₽ <small> / 30 см</small></div>
             <button type="button" class="btn btn-outline pizza-add"
-              data-pizza="Маргарита" data-price="650">
+              data-id="margherita" data-pizza="Маргарита" data-price="650">
               + В корзину
             </button>
           </article>
@@ -786,7 +1328,7 @@
             <p class="pizza-desc">Острая пепперони, моцарелла, томатный соус.</p>
             <div class="pizza-price">790 ₽ <small> / 30 см</small></div>
             <button type="button" class="btn btn-outline pizza-add"
-              data-pizza="Пепперони" data-price="790">
+              data-id="pepperoni" data-pizza="Пепперони" data-price="790">
               + В корзину
             </button>
           </article>
@@ -795,7 +1337,7 @@
             <p class="pizza-desc">Моцарелла, дорблю, чеддер, пармезан.</p>
             <div class="pizza-price">890 ₽ <small> / 30 см</small></div>
             <button type="button" class="btn btn-outline pizza-add"
-              data-pizza="Четыре сыра" data-price="890">
+              data-id="quattro-formaggi" data-pizza="Четыре сыра" data-price="890">
               + В корзину
             </button>
           </article>
@@ -804,7 +1346,7 @@
             <p class="pizza-desc">Ветчина, шампиньоны, моцарелла, соус.</p>
             <div class="pizza-price">820 ₽ <small> / 30 см</small></div>
             <button type="button" class="btn btn-outline pizza-add"
-              data-pizza="Ветчина и грибы" data-price="820">
+              data-id="prosciutto-funghi" data-pizza="Ветчина и грибы" data-price="820">
               + В корзину
             </button>
           </article>
@@ -813,7 +1355,7 @@
             <p class="pizza-desc">Острый соус, салями, перец чили, моцарелла.</p>
             <div class="pizza-price">850 ₽ <small> / 30 см</small></div>
             <button type="button" class="btn btn-outline pizza-add"
-              data-pizza="Дьябло" data-price="850">
+              data-id="diavola" data-pizza="Дьябло" data-price="850">
               + В корзину
             </button>
           </article>
@@ -822,7 +1364,7 @@
             <p class="pizza-desc">Трюфельный крем, грибы, моцарелла, руккола.</p>
             <div class="pizza-price">990 ₽ <small> / 30 см</small></div>
             <button type="button" class="btn btn-outline pizza-add"
-              data-pizza="Тартюфо" data-price="990">
+              data-id="tartufo" data-pizza="Тартюфо" data-price="990">
               + В корзину
             </button>
           </article>
@@ -941,13 +1483,644 @@
     </div>
   </footer>
 
+  <!-- TOAST -->
+  <div class="cart-toast cart-toast-hidden" id="cartToast" role="status" aria-live="polite" aria-atomic="true">
+    <span class="cart-toast-msg" id="toastMsg">Пицца добавлена в корзину</span>
+    <button type="button" class="cart-toast-btn" id="toastOpen">Открыть корзину</button>
+  </div>
+
+  <!-- OVERLAY + DRAWER КОРЗИНЫ -->
+  <div class="cart-overlay" id="cartDrawerOverlay"></div>
+  <aside class="cart-drawer" id="cartDrawer" role="dialog" aria-modal="true" aria-labelledby="cartDrawerTitle">
+    <div class="cart-drawer-head">
+      <h2 id="cartDrawerTitle">Корзина</h2>
+      <button type="button" class="drawer-close" aria-label="Закрыть корзину">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-empty" id="cartEmpty" hidden>
+      <p class="cart-empty-title">Корзина пуста</p>
+      <p class="cart-empty-text">Добавьте любимую пиццу — и она появится здесь.</p>
+      <button type="button" class="btn cart-menu-btn" id="cartGoMenu">Перейти в меню</button>
+    </div>
+    <div class="cart-footer" id="cartFooter" hidden>
+      <div class="cart-total-row">
+        <span class="cart-total-label">Итого</span>
+        <span class="cart-total-sum" id="cartTotal">0 ₽</span>
+      </div>
+      <div class="cart-footer-actions">
+        <button type="button" class="cart-clear-btn" id="cartClear">Очистить</button>
+        <button type="button" class="cart-checkout-btn" id="cartCheckout">Оформить</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- OVERLAY + МОДАЛКА ЧЕКАУТА -->
+  <div class="modal-overlay" id="checkoutModalOverlay"></div>
+  <div class="checkout-modal modal-hidden" id="checkoutModal" role="dialog" aria-modal="true" aria-labelledby="checkoutModalTitle">
+    <div class="modal-head">
+      <h2 class="modal-title" id="checkoutModalTitle">Оформление заказа</h2>
+      <button type="button" class="modal-close" aria-label="Закрыть оформление">✕</button>
+    </div>
+
+    <form id="checkoutForm" novalidate>
+      <div class="modal-field">
+        <label for="coName">Имя</label>
+        <input type="text" id="coName" name="coName" autocomplete="name" placeholder="Ваше имя" aria-describedby="coNameError">
+        <p class="modal-error" id="coNameError" role="alert"></p>
+      </div>
+      <div class="modal-field">
+        <label for="coPhone">Телефон</label>
+        <input type="tel" id="coPhone" name="coPhone" inputmode="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" maxlength="18" aria-describedby="coPhoneError">
+        <p class="modal-error" id="coPhoneError" role="alert"></p>
+      </div>
+      <div class="modal-field">
+        <label for="coAddress">Адрес доставки</label>
+        <input type="text" id="coAddress" name="coAddress" autocomplete="street-address" placeholder="Улица, дом, квартира" aria-describedby="coAddressError">
+        <p class="modal-error" id="coAddressError" role="alert"></p>
+      </div>
+      <div class="modal-field">
+        <label for="coComment">Комментарий</label>
+        <textarea id="coComment" name="coComment" rows="3" placeholder="Пожелания к заказу (необязательно)"></textarea>
+      </div>
+      <button type="submit" class="modal-submit" id="coSubmit">Подтвердить</button>
+    </form>
+
+    <div class="modal-success" id="coSuccessView" hidden>
+      <div class="modal-success-icon" aria-hidden="true">🍕</div>
+      <h3 class="modal-success-title">Спасибо! Заказ принят</h3>
+      <p class="modal-success-text">Номер вашего заказа</p>
+      <div class="modal-order-num" id="coOrderNumber">0000</div>
+      <p class="modal-success-note">Мы скоро свяжемся с вами для подтверждения.</p>
+      <button type="button" class="modal-submit modal-success-btn" id="coSuccessClose">Отлично</button>
+    </div>
+  </div>
+
   <script>
-    document.querySelectorAll('.pizza-add').forEach(function (button) {
-      button.addEventListener('click', function () {
-        var pizzaName = button.getAttribute('data-pizza');
-        alert('Пицца "' + pizzaName + '" добавлена в корзину');
+    (function () {
+      'use strict';
+
+      var CART_KEY = 'bellanotte_cart_v1';
+      var DRAFT_KEY = 'bellanotte_checkout_draft_v1';
+      var money = new Intl.NumberFormat('ru-RU');
+
+      var drawerEl = document.getElementById('cartDrawer');
+      var drawerOverlay = document.getElementById('cartDrawerOverlay');
+      var modalEl = document.getElementById('checkoutModal');
+      var modalOverlay = document.getElementById('checkoutModalOverlay');
+      var toastEl = document.getElementById('cartToast');
+      var toastMsgEl = document.getElementById('toastMsg');
+      var badgeEl = document.getElementById('cartBadge');
+      var cartHeaderBtn = document.getElementById('cartHeaderBtn');
+
+      var form = document.getElementById('checkoutForm');
+      var coName = document.getElementById('coName');
+      var coPhone = document.getElementById('coPhone');
+      var coAddress = document.getElementById('coAddress');
+      var coComment = document.getElementById('coComment');
+      var coSubmit = document.getElementById('coSubmit');
+
+      var cart = loadCart();
+      var draft = loadDraft();
+
+      var drawerOpen = false;
+      var modalOpen = false;
+      var drawerReturnFocus = null;
+      var modalReturnFocus = null;
+      var toastTimer = null;
+      var btnTimers = new Map();
+
+      /* ================= ХРАНИЛИЩЕ ================= */
+
+      function loadCart() {
+        try {
+          var raw = localStorage.getItem(CART_KEY);
+          if (!raw) return [];
+          var data = JSON.parse(raw);
+          if (!Array.isArray(data)) return [];
+          var clean = data.filter(function (it) {
+            return it &&
+              typeof it.id === 'string' && it.id.length > 0 &&
+              typeof it.name === 'string' && it.name.length > 0 &&
+              typeof it.price === 'number' && it.price > 0 &&
+              typeof it.qty === 'number' && it.qty >= 1 && it.qty === Math.floor(it.qty);
+          });
+          if (clean.length !== data.length) {
+            localStorage.setItem(CART_KEY, JSON.stringify(clean));
+          }
+          return clean;
+        } catch (err) {
+          console.error('Не удалось прочитать корзину:', err);
+          return [];
+        }
+      }
+
+      function saveCart() {
+        try {
+          localStorage.setItem(CART_KEY, JSON.stringify(cart));
+        } catch (err) {
+          console.error('Не удалось сохранить корзину:', err);
+        }
+      }
+
+      function loadDraft() {
+        try {
+          var raw = localStorage.getItem(DRAFT_KEY);
+          if (!raw) return null;
+          var data = JSON.parse(raw);
+          if (!data || typeof data !== 'object') return null;
+          return {
+            name: typeof data.name === 'string' ? data.name : '',
+            phone: typeof data.phone === 'string' ? data.phone : '',
+            address: typeof data.address === 'string' ? data.address : '',
+            comment: typeof data.comment === 'string' ? data.comment : ''
+          };
+        } catch (err) {
+          console.error('Не удалось прочитать черновик заказа:', err);
+          return null;
+        }
+      }
+
+      function saveDraft() {
+        try {
+          localStorage.setItem(DRAFT_KEY, JSON.stringify(draft || {}));
+        } catch (err) {
+          console.error('Не удалось сохранить черновик заказа:', err);
+        }
+      }
+
+      function clearDraft() {
+        draft = null;
+        try {
+          localStorage.removeItem(DRAFT_KEY);
+        } catch (err) {
+          console.error('Не удалось удалить черновик заказа:', err);
+        }
+      }
+
+      /* ================= СОСТОЯНИЕ ================= */
+
+      function totalQty() {
+        return cart.reduce(function (sum, it) { return sum + it.qty; }, 0);
+      }
+
+      function totalSum() {
+        return cart.reduce(function (sum, it) { return sum + it.price * it.qty; }, 0);
+      }
+
+      function findItem(id) {
+        for (var i = 0; i < cart.length; i += 1) {
+          if (cart[i].id === id) return cart[i];
+        }
+        return null;
+      }
+
+      function addItem(pizza) {
+        var item = findItem(pizza.id);
+        if (item) {
+          item.qty += 1;
+        } else {
+          cart.push({ id: pizza.id, name: pizza.name, price: pizza.price, qty: 1 });
+        }
+        saveCart();
+        renderAll();
+      }
+
+      function changeQty(id, delta) {
+        var item = findItem(id);
+        if (!item) return;
+        item.qty += delta;
+        if (item.qty < 1) {
+          cart = cart.filter(function (it) { return it.id !== id; });
+        }
+        saveCart();
+        renderAll();
+      }
+
+      function removeItem(id) {
+        cart = cart.filter(function (it) { return it.id !== id; });
+        saveCart();
+        renderAll();
+      }
+
+      function clearCart() {
+        cart = [];
+        saveCart();
+        renderAll();
+      }
+
+      /* ================= РЕНДЕР ================= */
+
+      function renderAll() {
+        renderBadge();
+        renderDrawer();
+      }
+
+      function renderBadge() {
+        var qty = totalQty();
+        badgeEl.textContent = String(qty);
+        badgeEl.classList.toggle('cart-badge-hidden', qty === 0);
+        cartHeaderBtn.setAttribute('aria-label', qty > 0 ? ('Открыть корзину, позиций: ' + qty) : 'Открыть корзину');
+      }
+
+      function renderDrawer() {
+        var itemsEl = document.getElementById('cartItems');
+        var emptyEl = document.getElementById('cartEmpty');
+        var footerEl = document.getElementById('cartFooter');
+        var totalEl = document.getElementById('cartTotal');
+
+        itemsEl.textContent = '';
+        if (cart.length === 0) {
+          itemsEl.hidden = true;
+          emptyEl.hidden = false;
+          footerEl.hidden = true;
+          return;
+        }
+
+        itemsEl.hidden = false;
+        emptyEl.hidden = true;
+        footerEl.hidden = false;
+
+        cart.forEach(function (it) {
+          itemsEl.appendChild(renderItem(it));
+        });
+
+        totalEl.textContent = money.format(totalSum()) + ' ₽';
+      }
+
+      function renderItem(it) {
+        var row = document.createElement('div');
+        row.className = 'cart-item';
+
+        var info = document.createElement('div');
+        info.className = 'cart-item-info';
+
+        var name = document.createElement('div');
+        name.className = 'cart-item-name';
+        name.textContent = it.name;
+
+        var price = document.createElement('div');
+        price.className = 'cart-item-price';
+        price.textContent = money.format(it.price) + ' ₽';
+
+        info.appendChild(name);
+        info.appendChild(price);
+
+        var qtyWrap = document.createElement('div');
+        qtyWrap.className = 'cart-item-qty';
+
+        var decBtn = document.createElement('button');
+        decBtn.type = 'button';
+        decBtn.className = 'cart-qty-btn';
+        decBtn.dataset.action = 'dec';
+        decBtn.dataset.id = it.id;
+        decBtn.setAttribute('aria-label', 'Убрать одну «' + it.name + '»');
+        decBtn.textContent = '−';
+
+        var qtyNum = document.createElement('span');
+        qtyNum.className = 'cart-qty-num';
+        qtyNum.setAttribute('aria-hidden', 'true');
+        qtyNum.textContent = String(it.qty);
+
+        var incBtn = document.createElement('button');
+        incBtn.type = 'button';
+        incBtn.className = 'cart-qty-btn';
+        incBtn.dataset.action = 'inc';
+        incBtn.dataset.id = it.id;
+        incBtn.setAttribute('aria-label', 'Добавить ещё одну «' + it.name + '»');
+        incBtn.textContent = '+';
+
+        qtyWrap.appendChild(decBtn);
+        qtyWrap.appendChild(qtyNum);
+        qtyWrap.appendChild(incBtn);
+
+        var delBtn = document.createElement('button');
+        delBtn.type = 'button';
+        delBtn.className = 'cart-item-remove';
+        delBtn.dataset.action = 'remove';
+        delBtn.dataset.id = it.id;
+        delBtn.setAttribute('aria-label', 'Удалить «' + it.name + '» из корзины');
+        delBtn.textContent = '✕';
+
+        row.appendChild(info);
+        row.appendChild(qtyWrap);
+        row.appendChild(delBtn);
+        return row;
+      }
+
+      /* ================= УПРАВЛЕНИЕ СЛОЯМИ ================= */
+
+      function setInert(el, val) {
+        if ('inert' in el) el.inert = val;
+      }
+
+      function updateScrollLock() {
+        var blocked = drawerOpen || modalOpen;
+        document.body.style.overflow = blocked ? 'hidden' : '';
+      }
+
+      function openDrawer() {
+        if (drawerOpen) return;
+        drawerReturnFocus = document.activeElement;
+        drawerOpen = true;
+        drawerEl.classList.add('drawer-open');
+        drawerEl.setAttribute('aria-hidden', 'false');
+        setInert(drawerEl, false);
+        drawerOverlay.classList.add('cart-overlay-open');
+        updateScrollLock();
+        renderDrawer();
+        var closeBtn = drawerEl.querySelector('.drawer-close');
+        if (closeBtn) closeBtn.focus();
+      }
+
+      function closeDrawer() {
+        if (!drawerOpen) return;
+        drawerOpen = false;
+        drawerEl.classList.remove('drawer-open');
+        drawerEl.setAttribute('aria-hidden', 'true');
+        setInert(drawerEl, true);
+        drawerOverlay.classList.remove('cart-overlay-open');
+        updateScrollLock();
+        if (drawerReturnFocus && drawerReturnFocus.isConnected) {
+          drawerReturnFocus.focus();
+        }
+        drawerReturnFocus = null;
+      }
+
+      function openModal() {
+        if (modalOpen) return;
+        modalReturnFocus = document.activeElement;
+        modalOpen = true;
+        showCheckoutForm();
+        prefillDraft();
+        resetModalErrors();
+        modalEl.classList.remove('modal-hidden');
+        modalEl.setAttribute('aria-hidden', 'false');
+        setInert(modalEl, false);
+        modalOverlay.classList.add('modal-overlay-open');
+        updateScrollLock();
+        var firstField = modalEl.querySelector('input, textarea, select, button');
+        if (firstField) firstField.focus();
+      }
+
+      function closeModal() {
+        if (!modalOpen) return;
+        modalOpen = false;
+        modalEl.classList.add('modal-hidden');
+        modalEl.setAttribute('aria-hidden', 'true');
+        setInert(modalEl, true);
+        modalOverlay.classList.remove('modal-overlay-open');
+        updateScrollLock();
+        coSubmit.disabled = false;
+        coSubmit.textContent = 'Подтвердить';
+        if (modalReturnFocus && modalReturnFocus.isConnected) {
+          modalReturnFocus.focus();
+        }
+        modalReturnFocus = null;
+      }
+
+      /* ================= TOAST ================= */
+
+      function showToast(msg) {
+        clearTimeout(toastTimer);
+        toastMsgEl.textContent = msg;
+        toastEl.classList.remove('cart-toast-hidden');
+        toastTimer = setTimeout(hideToast, 3000);
+      }
+
+      function hideToast() {
+        toastEl.classList.add('cart-toast-hidden');
+      }
+
+      /* ================= ФИДБЕК КНОПКИ ================= */
+
+      function btnFeedback(btn) {
+        var prev = btnTimers.get(btn);
+        if (prev) clearTimeout(prev);
+        var original = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = '✓ Добавлено';
+        btnTimers.set(btn, setTimeout(function () {
+          btn.disabled = false;
+          btn.textContent = original;
+          btnTimers.delete(btn);
+        }, 1500));
+      }
+
+      /* ================= ТЕЛЕФОН ================= */
+
+      function phoneDigits(raw) {
+        var d = raw.replace(/\D/g, '');
+        return d.replace(/^[78]/, '').slice(0, 10);
+      }
+
+      function formatPhone(raw) {
+        var d = phoneDigits(raw);
+        var out = '+7 (';
+        if (d.length > 0) out += d.slice(0, 3);
+        if (d.length >= 3) out += ') ';
+        out += d.slice(3, 6);
+        if (d.length >= 6) out += '-';
+        out += d.slice(6, 8);
+        if (d.length >= 8) out += '-';
+        out += d.slice(8, 10);
+        return out;
+      }
+
+      /* ================= ЧЕКАУТ ================= */
+
+      function showCheckoutForm() {
+        form.hidden = false;
+        document.getElementById('coSuccessView').hidden = true;
+      }
+
+      function showSuccess() {
+        form.hidden = true;
+        document.getElementById('coSuccessView').hidden = false;
+        document.getElementById('coSuccessClose').focus();
+      }
+
+      function prefillDraft() {
+        if (!draft) return;
+        coName.value = draft.name || '';
+        coPhone.value = draft.phone || '';
+        coAddress.value = draft.address || '';
+        coComment.value = draft.comment || '';
+      }
+
+      function saveDraftNow() {
+        draft = {
+          name: coName.value,
+          phone: coPhone.value,
+          address: coAddress.value,
+          comment: coComment.value
+        };
+        saveDraft();
+      }
+
+      function setFieldError(input, message) {
+        var errId = input.getAttribute('aria-describedby');
+        var errEl = errId ? document.getElementById(errId) : null;
+        input.setAttribute('aria-invalid', message ? 'true' : 'false');
+        if (errEl) errEl.textContent = message;
+      }
+
+      function resetModalErrors() {
+        setFieldError(coName, '');
+        setFieldError(coPhone, '');
+        setFieldError(coAddress, '');
+      }
+
+      function validateForm() {
+        var nameOk = coName.value.trim().length >= 2;
+        var phoneOk = phoneDigits(coPhone.value).length === 10;
+        var addressOk = coAddress.value.trim().length >= 5;
+
+        setFieldError(coName, nameOk ? '' : 'Введите имя — минимум 2 символа');
+        setFieldError(coPhone, phoneOk ? '' : 'Введите телефон полностью: +7 (___) ___-__-__');
+        setFieldError(coAddress, addressOk ? '' : 'Введите адрес — минимум 5 символов');
+
+        if (!nameOk) {
+          coName.focus();
+          return false;
+        }
+        if (!phoneOk) {
+          coPhone.focus();
+          return false;
+        }
+        if (!addressOk) {
+          coAddress.focus();
+          return false;
+        }
+        return true;
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!validateForm()) return;
+
+        coSubmit.disabled = true;
+        coSubmit.textContent = 'Отправляем…';
+
+        /* TODO: заменить на реальный endpoint */
+        setTimeout(function () {
+          var orderNumber = String(Math.floor(1000 + Math.random() * 9000));
+          document.getElementById('coOrderNumber').textContent = orderNumber;
+          clearCart();
+          clearDraft();
+          showSuccess();
+          coSubmit.disabled = false;
+          coSubmit.textContent = 'Подтвердить';
+        }, 1000);
       });
-    });
+
+      /* ================= ОБРАБОТЧИКИ ================= */
+
+      function trapFocus(container, e) {
+        var focusables = container.querySelectorAll(
+          'button:not([disabled]), [href], input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusables.length === 0) return;
+        var first = focusables[0];
+        var last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+
+      document.addEventListener('click', function (e) {
+        var addBtn = e.target.closest ? e.target.closest('.pizza-add') : null;
+        if (addBtn) {
+          e.preventDefault();
+          var id = addBtn.getAttribute('data-id');
+          var name = addBtn.getAttribute('data-pizza');
+          var price = Number(addBtn.getAttribute('data-price'));
+          if (!id || !name || !(price > 0)) return;
+          addItem({ id: id, name: name, price: price });
+          btnFeedback(addBtn);
+          showToast('Пицца «' + name + '» добавлена');
+          return;
+        }
+
+        if (e.target === drawerOverlay) { closeDrawer(); return; }
+        if (e.target === modalOverlay) { closeModal(); return; }
+
+        if (e.target.closest && e.target.closest('.drawer-close')) { closeDrawer(); return; }
+        if (e.target.closest && e.target.closest('.modal-close')) { closeModal(); return; }
+
+        if (e.target.closest && e.target.closest('#cartHeaderBtn')) { openDrawer(); return; }
+
+        if (e.target.closest && e.target.closest('#toastOpen')) {
+          hideToast();
+          openDrawer();
+          return;
+        }
+
+        if (e.target.closest && e.target.closest('#cartGoMenu')) {
+          closeDrawer();
+          var menu = document.getElementById('menu');
+          if (menu) {
+            var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            menu.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+          }
+          return;
+        }
+
+        if (e.target.closest && e.target.closest('#cartClear')) { clearCart(); return; }
+        if (e.target.closest && e.target.closest('#cartCheckout')) { openModal(); return; }
+        if (e.target.closest && e.target.closest('#coSuccessClose')) { closeModal(); return; }
+
+        var actionBtn = e.target.closest ? e.target.closest('[data-action]') : null;
+        if (actionBtn) {
+          var action = actionBtn.getAttribute('data-action');
+          var itemId = actionBtn.getAttribute('data-id');
+          if (action === 'inc') changeQty(itemId, 1);
+          else if (action === 'dec') changeQty(itemId, -1);
+          else if (action === 'remove') removeItem(itemId);
+        }
+      });
+
+      document.addEventListener('input', function (e) {
+        var t = e.target;
+        if (t === coPhone) {
+          t.value = formatPhone(t.value);
+        }
+        if (t.closest && t.closest('#checkoutForm')) {
+          saveDraftNow();
+        }
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+          if (modalOpen) {
+            e.preventDefault();
+            closeModal();
+          } else if (drawerOpen) {
+            e.preventDefault();
+            closeDrawer();
+          }
+          return;
+        }
+        if (e.key === 'Tab') {
+          if (modalOpen) {
+            trapFocus(modalEl, e);
+          } else if (drawerOpen) {
+            trapFocus(drawerEl, e);
+          }
+        }
+      });
+
+      /* ================= ИНИЦИАЛИЗАЦИЯ ================= */
+
+      drawerEl.setAttribute('aria-hidden', 'true');
+      modalEl.setAttribute('aria-hidden', 'true');
+      setInert(drawerEl, true);
+      setInert(modalEl, true);
+      renderAll();
+    })();
   </script>
 </body>
 </html>

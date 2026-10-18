@@ -353,6 +353,42 @@
       font-size: 0.95rem;
     }
 
+    /* ===== PIZZA IMAGES ===== */
+    .pizza-card {
+      padding: 0 1.5rem 1.5rem; /* верхний padding убран: фото примыкает к верхнему краю карточки */
+      overflow: hidden; /* скругление верхних углов фото по радиусу карточки + обрезка при scale */
+    }
+
+    .pizza-card__media {
+      margin: 0 -1.5rem 1rem; /* компенсация боковых padding — фото от края до края карточки */
+      aspect-ratio: 1 / 1;    /* файлы 1024×1024 (квадратные) — пропорции совпадают, без лишней обрезки */
+      overflow: hidden;
+      background: #f0e0c0; /* заглушка на время загрузки */
+    }
+
+    .pizza-card__media img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transition: transform 0.3s ease;
+    }
+
+    .pizza-card:hover .pizza-card__media img {
+      transform: scale(1.03);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pizza-card__media img {
+        transition: none;
+      }
+
+      .pizza-card:hover .pizza-card__media img {
+        transform: none;
+      }
+    }
+
     /* АКЦИИ */
     .promo-grid {
       display: grid;
@@ -1315,6 +1351,7 @@
         <p class="section-subtitle">Шесть хитов, которые стоит попробовать</p>
         <div class="menu-grid">
           <article class="pizza-card">
+            <div class="pizza-card__media"><img src="margarita.jpg" alt="Пицца Маргарита" width="1024" height="1024" loading="eager" decoding="async"></div>
             <h3 class="pizza-name">Маргарита</h3>
             <p class="pizza-desc">Томатный соус, моцарелла, свежий базилик.</p>
             <div class="pizza-price">650 ₽ <small> / 30 см</small></div>
@@ -1324,6 +1361,7 @@
             </button>
           </article>
           <article class="pizza-card">
+            <div class="pizza-card__media"><img src="pepperoni.jpg" alt="Пицца Пепперони" width="1024" height="1024" loading="lazy" decoding="async"></div>
             <h3 class="pizza-name">Пепперони</h3>
             <p class="pizza-desc">Острая пепперони, моцарелла, томатный соус.</p>
             <div class="pizza-price">790 ₽ <small> / 30 см</small></div>
@@ -1333,6 +1371,7 @@
             </button>
           </article>
           <article class="pizza-card">
+            <div class="pizza-card__media"><img src="4syra.jpg" alt="Пицца Четыре сыра" width="1024" height="1024" loading="lazy" decoding="async"></div>
             <h3 class="pizza-name">Четыре сыра</h3>
             <p class="pizza-desc">Моцарелла, дорблю, чеддер, пармезан.</p>
             <div class="pizza-price">890 ₽ <small> / 30 см</small></div>
@@ -1342,6 +1381,7 @@
             </button>
           </article>
           <article class="pizza-card">
+            <div class="pizza-card__media"><img src="vetchigrybi.jpg" alt="Пицца Ветчина и грибы" width="1024" height="1024" loading="lazy" decoding="async"></div>
             <h3 class="pizza-name">Ветчина и грибы</h3>
             <p class="pizza-desc">Ветчина, шампиньоны, моцарелла, соус.</p>
             <div class="pizza-price">820 ₽ <small> / 30 см</small></div>
@@ -1351,6 +1391,7 @@
             </button>
           </article>
           <article class="pizza-card">
+            <div class="pizza-card__media"><img src="diablo.jpg" alt="Пицца Дьябло" width="1024" height="1024" loading="lazy" decoding="async"></div>
             <h3 class="pizza-name">Дьябло</h3>
             <p class="pizza-desc">Острый соус, салями, перец чили, моцарелла.</p>
             <div class="pizza-price">850 ₽ <small> / 30 см</small></div>
@@ -1360,6 +1401,7 @@
             </button>
           </article>
           <article class="pizza-card">
+            <div class="pizza-card__media"><img src="tartufo.jpg" alt="Пицца Тартюфо" width="1024" height="1024" loading="lazy" decoding="async"></div>
             <h3 class="pizza-name">Тартюфо</h3>
             <p class="pizza-desc">Трюфельный крем, грибы, моцарелла, руккола.</p>
             <div class="pizza-price">990 ₽ <small> / 30 см</small></div>
